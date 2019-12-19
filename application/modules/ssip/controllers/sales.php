@@ -1,10 +1,11 @@
 <?php
+ob_start();
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class sales extends ssip_Controller {
+require_once("application/core/ssip_Controller.php");
+class Sales extends ssip_Controller {
                     function __construct() {
 					parent::__construct();
-					$this->load->model('mSales');
+					$this->load->model('Msales');
      
                   }	   
 	public function index()
@@ -25,6 +26,10 @@ class sales extends ssip_Controller {
 		$insertdata = $_POST;
 		//UNTUK CEK APAKAH INSERT BARU ATAU UPDATE
 		$opr = $insertdata['opr'];
+		$prc = $insertdata['AccR_Price'];
+		$qty = $insertdata['AccR_Qty'];
+		$amnt = $prc * $qty;
+		$insertdata['AccR_Amount'] = $amnt;
 		//SAVE NEW
 		if($opr=='new'){
 			//REMOVE ARRAY OPR
@@ -32,7 +37,7 @@ class sales extends ssip_Controller {
 			//REMOVE ARRAY ID (AUTOINCREMENT)
 			\array_splice($insertdata,0,1);	
 
-			$this->mSales->insertData($insertdata,'tblSales');
+			$this->Msales->insertData($insertdata,'tblsales');
 			}else{
 
 				//UPDATE
@@ -44,17 +49,17 @@ class sales extends ssip_Controller {
 				\array_splice($insertdata,0,1);	;	
 				//CLAUSE WHERE
 				$clause = array('AccR_ID' => $id);
-				$this->mSales->updateData($insertdata,$clause,'tblSales');
+				$this->Msales->updateData($insertdata,$clause,'tblsales');
 				
 			}
-		header("Location: ".base_url()."ssip/sales");
+		header("Location: ".base_url()."ssip/Sales");
 		die();
 	}
 
 	public function delete(){		
 		$id = $_POST['id'];
 		$clause = array('AccR_ID'=> $id);
-		$this->mSales->deleteData($clause,'tblsales');
+		$this->Msales->deleteData($clause,'tblsales');
 		echo json_encode(array('success' => TRUE));	
 	}
 
@@ -62,7 +67,7 @@ class sales extends ssip_Controller {
 		$id = $_POST['id'];
 		$clause = array('AccR_ID'=> $id);
 		$updatedata = array('AccR_TrxStatus' => 'P');
-		$this->mSales->updateData($updatedata,$clause,'tblsales');
+		$this->Msales->updateData($updatedata,$clause,'tblsales');
 		echo json_encode(array('success' => TRUE));	
 	}
 
@@ -70,7 +75,7 @@ class sales extends ssip_Controller {
 	//FUNGSI SalesLIST TABLE
 	public function SalesList()
     {
-        $list = $this->mSales->get_datatables();
+        $list = $this->Msales->get_datatables();
 		$data = array();
 	
 		$no = $_POST['start'];
@@ -87,9 +92,7 @@ class sales extends ssip_Controller {
 				$label = $label."<button title='Posting' onclick='postingRecord($id)' class='btn btn-success btn-xs'><i class='fa fa-forward'></i></button> ";
 				$stlb = "<label class='badge badge-danger'>Recorded</label>";
 			}else{
-
 				$stlb = "<label class='badge badge-success'>Posted</label>";
-			
 			}
 			$row = array();
             $row[] = $label;
@@ -106,8 +109,8 @@ class sales extends ssip_Controller {
 
         $output = array(
                         "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->mSales->count_all(),
-                        "recordsFiltered" => $this->mSales->count_filtered(),
+                        "recordsTotal" => $this->Msales->count_all(),
+                        "recordsFiltered" => $this->Msales->count_filtered(),
                         "data" => $data,
                 );
         //output to json format
@@ -116,7 +119,7 @@ class sales extends ssip_Controller {
 
 	public function getSalesById(){
 		$id = $_POST['id'];
-		$q1 = $this->mSales->getSalesById($id);	
+		$q1 = $this->Msales->getSalesById($id);	
 		if($q1->num_rows() > 0 ){
 				foreach($q1->result() as $sales){
 					$row = array();
