@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class mSales extends CI_Model {
+class Msales extends CI_Model {
 
 	var $tblSales = 'tblsales';
     var $cOrdSales = array(null,'AccR_ID','AccR_TrxStatus','Customer_Name','AccR_Item','AccR_Price','AccR_Qty','AccR_Amount','AccR_Date'); //set column field database for datatable orderable
-    var $cSrcSales = array('AccR_ID','AccR_TrxStatus','Customer_Name','AccR_Item','AccR_Price','AccR_Qty','AccR_Amount','AccR_Date'); //set column field database for datatable searchable 
+    var $cSrcSales = array('AccR_ID','AccR_TrxStatus','AccR_Item','AccR_Price','AccR_Qty','AccR_Amount','AccR_Date'); //set column field database for datatable searchable 
 	var $oSales = array('AccR_ID' => 'desc'); // default order 
 	
         function __construct() {
