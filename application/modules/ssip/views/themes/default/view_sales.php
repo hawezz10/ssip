@@ -17,7 +17,13 @@
         <th>Trans.Date</th> 
         </tr>
         </thead>
-    <tbody></tbody>
+    <tbody>
+    
+    
+    
+    
+    
+    </tbody>
     </table>
     </div>
 </div>
@@ -32,7 +38,7 @@
       </div>
       <div class="modal-body">
       <table class='table'>
-        <form id='formSales' name='formSales' autocomplete="off" action='<?= base_url(); ?>ssip/sales/submit' method='POST' enctype="multipart/form-data">
+        <form id='formSales' name='formSales' autocomplete="off" action='<?= base_url(); ?>ssip/Sales/submit' method='POST' enctype="multipart/form-data">
         <tr><td>ID</td><td><input type="text" name="AccR_ID" id="AccR_ID" readonly style='width:70px;'/>
         <input name='opr' id='opr' style='width:30px;' readonly/>
         <input name='AccR_TrxStatus' id='AccR_TrxStatus' style='width:30px;' readonly/><span id='stdesc'></span>
@@ -54,7 +60,7 @@
 <script>
 var table;
 $(document).ready(function() {
-     var uri = '<?= base_url(); ?>ssip/sales/SalesList';
+     var uri = '<?= base_url(); ?>ssip/Sales/SalesList';
       table = $('#listSales').DataTable({ 
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
@@ -99,7 +105,7 @@ $(document).ready(function() {
   }
 
   function editRecord(id){
-    var url = '<?= base_url(); ?>ssip/sales/getSalesById';
+    var url = '<?= base_url(); ?>ssip/Sales/getSalesById';
         $.ajax({
         type: "POST",
             url: url,
@@ -126,7 +132,7 @@ $(document).ready(function() {
           var r = confirm("Delete Sales Record?")
           if(r==true){
             if(confirm("Are you sure? This cannot be undone!")){
-              var url = '<?= base_url(); ?>ssip/sales/delete';
+              var url = '<?= base_url(); ?>ssip/Sales/delete';
               $.ajax({
               type: "POST",
                   url: url,
@@ -145,7 +151,7 @@ $(document).ready(function() {
           var r = confirm("Posting Sales Record?")
           if(r==true){
             if(confirm("Are you sure? This cannot be undone!")){
-              var url = '<?= base_url(); ?>ssip/sales/posting';
+              var url = '<?= base_url(); ?>ssip/Sales/posting';
               $.ajax({
               type: "POST",
                   url: url,
